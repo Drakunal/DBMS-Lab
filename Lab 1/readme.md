@@ -151,5 +151,3 @@ In this lab, you have learned how to:
 This forms the foundation for more advanced SQL topics, which will be introduced in the following labs.
 
 ---
-
-Feel free to customize the README further based on your lab's specific instructions or needs!
