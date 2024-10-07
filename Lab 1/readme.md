@@ -3,7 +3,7 @@
 # Lab 1: Library Management System using SQL
 
 ### Objective
-This lab will cover the basics of SQL, focusing on creating tables with primary and foreign keys, inserting records into these tables, and performing simple `SELECT` queries.
+This lab will cover the basics of SQL, focusing on creating tables with primary and foreign keys, inserting records into these tables, and performing simple `SELECT` queries with and without aggregate functions.
 
 ---
 
@@ -194,6 +194,47 @@ SELECT AVG(NumberOfCopies) AS AverageBorrowedPerTransaction FROM BorrowingRecord
 
 3. **Bonus Challenge**:
    - Write a query to count how many books each member has borrowed after a specific date.
+
+
+
+Here’s a more concise version of the assumptions and rules for the lab, along with the point about using a trigger to update the `AvailableCopies` in the `Books` table.
+
+---
+
+### **Assumptions and Rules**
+
+1. **Library Database Structure**:
+   - We store information about **books**, **members**, and **borrowing records** in three tables: `Books`, `Members`, and `BorrowingRecords`.
+   - The `BorrowingRecords` table captures borrowing transactions and links books to members via foreign keys (`BookID` and `MemberID`).
+
+2. **Books Table**:
+   - Each book is uniquely identified by `BookID` (Primary Key).
+   - Fields include `Title`, `Author`, `Genre`, `PublishedYear`, and `AvailableCopies` (number of copies available in the library).
+
+3. **Members Table**:
+   - Each member is identified by a unique `MemberID` (Primary Key).
+   - Fields include `FirstName`, `LastName`, `JoinDate`, and `MembershipType` (`ENUM` type, either 'Regular' or 'Premium').
+
+4. **BorrowingRecords Table**:
+   - Records each borrowing transaction, with `MemberID`, `BookID`, and `BorrowDate` forming a **composite primary key**.
+   - `NumberOfCopies` indicates how many copies of a book a member borrowed.
+   - The `ReturnDate` can be `NULL`, indicating that the book has not been returned yet.
+
+5. **Primary and Foreign Keys**:
+   - **Primary keys**: `BookID` (Books), `MemberID` (Members), `MemberID, BookID, BorrowDate` (BorrowingRecords).
+   - **Foreign keys** ensure that each borrowing record is tied to an existing member and book.
+
+6. **Updating Available Copies**:
+   - When a member borrows a book, the `AvailableCopies` in the `Books` table is **not automatically updated**.
+   - This can be handled using a **trigger** in future labs to decrease the number of available copies when a borrowing transaction is recorded.
+
+7. **Basic Queries**:
+   - Focuses on **basic CRUD operations** (Create, Read, Update, Delete) and **aggregate functions** (`COUNT()`, `SUM()`, `AVG()`).
+   - Example queries include counting books, finding members who borrowed more than 1 copy, and calculating the average number of books borrowed per transaction.
+
+8. **No Advanced SQL Concepts Yet**:
+   - **Joins**, **triggers**, and **complex transactions** are not covered in this lab, as it’s an introductory exercise.
+   - Advanced features will be introduced in future labs.
    
 ---
 -by Kunal Dey
