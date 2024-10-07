@@ -3,7 +3,7 @@
 # Lab 1: Library Management System using SQL
 
 ### Objective
-This lab introduces the basics of SQL, including creating a database, tables with primary and foreign keys, inserting data, and running `SELECT` queries with and without the `WHERE` clause. We will use a **Library Management System** as the use case to apply these SQL operations.
+This lab will cover the basics of SQL, focusing on creating tables with primary and foreign keys, inserting records into these tables, and performing simple `SELECT` queries.
 
 ---
 
@@ -14,14 +14,11 @@ CREATE DATABASE LibraryManagement;
 USE LibraryManagement;
 ```
 
-This will create a new database named `LibraryManagement` and switch to it for further operations.
-
 ---
 
 ### 2. **Create Tables**
 
-#### a. **Books Table**:
-Stores information about the books in the library.
+#### a. **Books Table**
 
 ```sql
 CREATE TABLE Books (
@@ -34,8 +31,7 @@ CREATE TABLE Books (
 );
 ```
 
-#### b. **Members Table**:
-Stores information about the members of the library.
+#### b. **Members Table**
 
 ```sql
 CREATE TABLE Members (
@@ -47,16 +43,16 @@ CREATE TABLE Members (
 );
 ```
 
-#### c. **BorrowingRecords Table**:
-Stores the borrowing history of the members, including the books they borrowed. This table references `Books` and `Members` through foreign keys.
+#### c. **BorrowingRecords Table**
 
 ```sql
 CREATE TABLE BorrowingRecords (
-    BorrowID INT PRIMARY KEY,
     MemberID INT,
     BookID INT,
     BorrowDate DATE,
     ReturnDate DATE,
+    NumberOfCopies INT,
+    PRIMARY KEY (MemberID, BookID, BorrowDate),
     FOREIGN KEY (MemberID) REFERENCES Members(MemberID),
     FOREIGN KEY (BookID) REFERENCES Books(BookID)
 );
@@ -66,88 +62,97 @@ CREATE TABLE BorrowingRecords (
 
 ### 3. **Insert Data into Tables**
 
-#### a. **Insert Records into Books**:
+#### a. **Insert Data into `Books`**
+
 ```sql
 INSERT INTO Books (BookID, Title, Author, Genre, PublishedYear, AvailableCopies)
 VALUES 
 (1, '1984', 'George Orwell', 'Dystopian', 1949, 5),
-(2, 'To Kill a Mockingbird', 'Harper Lee', 'Classic', 1960, 2),
+(2, 'To Kill a Mockingbird', 'Harper Lee', 'Classic', 1960, 3),
 (3, 'The Great Gatsby', 'F. Scott Fitzgerald', 'Classic', 1925, 4),
-(4, 'Brave New World', 'Aldous Huxley', 'Science Fiction', 1932, 3);
+(4, 'Brave New World', 'Aldous Huxley', 'Science Fiction', 1932, 2),
+(5, 'Moby Dick', 'Herman Melville', 'Adventure', 1851, 3),
+(6, 'Pride and Prejudice', 'Jane Austen', 'Romance', 1813, 5),
+(7, 'The Catcher in the Rye', 'J.D. Salinger', 'Fiction', 1951, 6),
+(8, 'The Hobbit', 'J.R.R. Tolkien', 'Fantasy', 1937, 7),
+(9, 'War and Peace', 'Leo Tolstoy', 'Historical', 1869, 4),
+(10, 'Frankenstein', 'Mary Shelley', 'Horror', 1818, 2);
 ```
 
-#### b. **Insert Records into Members**:
+#### b. **Insert Data into `Members`**
+
 ```sql
 INSERT INTO Members (MemberID, FirstName, LastName, JoinDate, MembershipType)
 VALUES 
-(101, 'John', 'Doe', '2022-05-10', 'Regular'),
-(102, 'Jane', 'Smith', '2021-07-20', 'Premium'),
-(103, 'Alice', 'Johnson', '2023-02-12', 'Regular');
+(101, 'John', 'Doe', '2022-01-10', 'Regular'),
+(102, 'Jane', 'Smith', '2021-04-15', 'Premium'),
+(103, 'Alice', 'Johnson', '2023-05-22', 'Regular'),
+(104, 'Bob', 'Brown', '2022-12-01', 'Regular'),
+(105, 'Carol', 'Wilson', '2021-06-17', 'Premium'),
+(106, 'Dave', 'Clark', '2023-07-30', 'Regular'),
+(107, 'Eve', 'Miller', '2022-03-21', 'Premium'),
+(108, 'Frank', 'Davis', '2022-09-11', 'Regular'),
+(109, 'Grace', 'Moore', '2023-02-28', 'Premium'),
+(110, 'Hank', 'Taylor', '2021-11-05', 'Regular');
 ```
 
-#### c. **Insert Records into BorrowingRecords**:
+#### c. **Insert Data into `BorrowingRecords`**
+
 ```sql
-INSERT INTO BorrowingRecords (BorrowID, MemberID, BookID, BorrowDate, ReturnDate)
+INSERT INTO BorrowingRecords (MemberID, BookID, BorrowDate, ReturnDate, NumberOfCopies)
 VALUES 
-(1, 101, 1, '2023-09-01', NULL),  -- John Doe borrowed '1984'
-(2, 102, 3, '2023-09-10', '2023-09-20');  -- Jane Smith borrowed 'The Great Gatsby'
+(101, 1, '2023-08-10', NULL, 1),  -- John Doe borrowed 1 copy of '1984'
+(102, 3, '2023-08-12', '2023-09-01', 2),  -- Jane Smith borrowed 2 copies of 'The Great Gatsby'
+(103, 4, '2023-09-05', NULL, 1),  -- Alice Johnson borrowed 1 copy of 'Brave New World'
+(104, 5, '2023-09-07', NULL, 1),  -- Bob Brown borrowed 'Moby Dick'
+(105, 2, '2023-09-15', NULL, 1);  -- Carol Wilson borrowed 'To Kill a Mockingbird'
 ```
 
 ---
 
 ### 4. **Run SELECT Queries**
 
-#### a. **Select All Records from Books**:
+#### a. **Retrieve All Books**:
+
 ```sql
 SELECT * FROM Books;
 ```
 
-This will retrieve all records from the `Books` table.
+#### b. **Retrieve Books Borrowed by a Specific Member**:
 
-#### b. **Select Specific Records with WHERE Clause**:
-- Retrieve books written by **George Orwell**:
-  ```sql
-  SELECT * FROM Books WHERE Author = 'George Orwell';
-  ```
+```sql
+SELECT * FROM BorrowingRecords WHERE MemberID = 101;  -- John Doe's borrowing history
+```
 
-- Find books published before **1950**:
-  ```sql
-  SELECT * FROM Books WHERE PublishedYear < 1950;
-  ```
+#### c. **Retrieve Members Who Borrowed More Than 1 Copy of a Book**:
 
-- Retrieve members who joined after **2021**:
-  ```sql
-  SELECT * FROM Members WHERE JoinDate > '2021-12-31';
-  ```
+```sql
+SELECT * FROM BorrowingRecords WHERE NumberOfCopies > 1;
+```
 
-#### c. **Select Using Logical Operators**:
-- Find all books in the **Classic** genre and published after **1930**:
-  ```sql
-  SELECT * FROM Books WHERE Genre = 'Classic' AND PublishedYear > 1930;
-  ```
+#### d. **Retrieve Books Borrowed After a Certain Date**:
 
-- Fetch books with less than **3 available copies**:
-  ```sql
-  SELECT Title, AvailableCopies FROM Books WHERE AvailableCopies < 3;
-  ```
+```sql
+SELECT * FROM BorrowingRecords WHERE BorrowDate > '2023-09-01';
+```
 
 ---
 
-### 5. **Practice Exercises**
-1. Add more records to the `Books` and `Members` tables.
-2. Write queries to:
-   - Retrieve books based on different criteria.
-   - Fetch members who joined in a specific year.
-   - Find books of a particular genre that have more than a certain number of available copies.
+### 5. **Practice Questions**
 
+1. **Add More Data**:
+   - Insert 2 more books into the `Books` table.
+   - Insert 2 more members into the `Members` table.
+   - Insert 2 more records into the `BorrowingRecords` table.
+
+2. **Write Queries**:
+   - Retrieve all the books written by **George Orwell**.
+   - Find members who joined the library before **2022**.
+   - Fetch books that have more than **4 available copies**.
+   - Find records where members returned the books after borrowing them (i.e., `ReturnDate` is not `NULL`).
+
+3. **Bonus Challenge**:
+   - Write a query to count how many books each member has borrowed.
+   
 ---
-
-### Summary
-In this lab, you have learned how to:
-- Create a database and tables with primary and foreign keys.
-- Insert records into the tables.
-- Run `SELECT` queries with and without the `WHERE` clause to filter data based on different conditions.
-
-This forms the foundation for more advanced SQL topics, which will be introduced in the following labs.
-
----
+-by Kunal Dey
