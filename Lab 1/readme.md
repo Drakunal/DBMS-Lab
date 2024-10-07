@@ -135,7 +135,77 @@ SELECT * FROM BorrowingRecords WHERE NumberOfCopies > 1;
 ```sql
 SELECT * FROM BorrowingRecords WHERE BorrowDate > '2023-09-01';
 ```
+Sure! Here are 6 examples of aggregate functions implemented on the `Books`, `Members`, and `BorrowingRecords` tables, which you can include before the practice questions in your lab:
 
+---
+
+### 4. **Examples of Aggregate Functions**
+
+1. **Count the Total Number of Books in the Library**:
+
+```sql
+SELECT COUNT(*) AS TotalBooks FROM Books;
+```
+
+This query will return the total number of books available in the library.
+
+---
+
+2. **Find the Average Number of Available Copies per Book**:
+
+```sql
+SELECT AVG(AvailableCopies) AS AverageCopies FROM Books;
+```
+
+This query will give the average number of available copies for all books in the library.
+
+---
+
+3. **Find the Maximum and Minimum Published Year of Books**:
+
+```sql
+SELECT MAX(PublishedYear) AS LatestPublication, MIN(PublishedYear) AS OldestPublication FROM Books;
+```
+
+This query will return the year of the most recently and oldest published books in the library.
+
+---
+
+4. **Count the Total Number of Premium Members**:
+
+```sql
+SELECT COUNT(*) AS TotalPremiumMembers FROM Members WHERE MembershipType = 'Premium';
+```
+
+This query will count the number of members who have a premium membership.
+
+---
+
+5. **Sum of Copies Borrowed by Each Member**:
+
+```sql
+SELECT MemberID, SUM(NumberOfCopies) AS TotalBorrowed FROM BorrowingRecords
+GROUP BY MemberID;
+```
+
+This query will return the total number of books each member has borrowed.
+
+---
+
+6. **Average Number of Books Borrowed per Transaction**:
+
+```sql
+SELECT AVG(NumberOfCopies) AS AverageBorrowedPerTransaction FROM BorrowingRecords;
+```
+
+This query calculates the average number of books borrowed in each borrowing transaction.
+
+---
+
+
+---
+
+These aggregate function examples introduce more powerful ways to summarize and analyze the data. They can be added just before the practice questions.
 ---
 
 ### 5. **Practice Questions**
