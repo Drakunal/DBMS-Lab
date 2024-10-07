@@ -117,33 +117,30 @@ VALUES
 ```sql
 SELECT * FROM Books;
 ```
-
+---
 #### b. **Retrieve Books Borrowed by a Specific Member**:
 
 ```sql
 SELECT * FROM BorrowingRecords WHERE MemberID = 101;  -- John Doe's borrowing history
 ```
-
+---
 #### c. **Retrieve Members Who Borrowed More Than 1 Copy of a Book**:
 
 ```sql
 SELECT * FROM BorrowingRecords WHERE NumberOfCopies > 1;
 ```
-
+---
 #### d. **Retrieve Books Borrowed After a Certain Date**:
 
 ```sql
 SELECT * FROM BorrowingRecords WHERE BorrowDate > '2023-09-01';
 ```
-
+---
 #### e. **Count the Total Number of Books in the Library**:
 
 ```sql
 SELECT COUNT(*) AS TotalBooks FROM Books;
 ```
-
-This query will return the total number of books available in the library.
-
 ---
 
 #### f. **Find the Average Number of Available Copies per Book**:
@@ -151,9 +148,6 @@ This query will return the total number of books available in the library.
 ```sql
 SELECT AVG(AvailableCopies) AS AverageCopies FROM Books;
 ```
-
-This query will give the average number of available copies for all books in the library.
-
 ---
 
 #### g. **Find the Maximum and Minimum Published Year of Books**:
@@ -161,9 +155,6 @@ This query will give the average number of available copies for all books in the
 ```sql
 SELECT MAX(PublishedYear) AS LatestPublication, MIN(PublishedYear) AS OldestPublication FROM Books;
 ```
-
-This query will return the year of the most recently and oldest published books in the library.
-
 ---
 
 #### h. **Count the Total Number of Premium Members**:
@@ -171,9 +162,6 @@ This query will return the year of the most recently and oldest published books 
 ```sql
 SELECT COUNT(*) AS TotalPremiumMembers FROM Members WHERE MembershipType = 'Premium';
 ```
-
-This query will count the number of members who have a premium membership.
-
 ---
 
 #### i. **Sum of Copies Borrowed by Each Member**:
@@ -182,9 +170,6 @@ This query will count the number of members who have a premium membership.
 SELECT MemberID, SUM(NumberOfCopies) AS TotalBorrowed FROM BorrowingRecords
 GROUP BY MemberID;
 ```
-
-This query will return the total number of books each member has borrowed.
-
 ---
 
 #### j. **Average Number of Books Borrowed per Transaction**:
@@ -192,11 +177,6 @@ This query will return the total number of books each member has borrowed.
 ```sql
 SELECT AVG(NumberOfCopies) AS AverageBorrowedPerTransaction FROM BorrowingRecords;
 ```
-
-This query calculates the average number of books borrowed in each borrowing transaction.
-
----
-
 ---
 
 ### 5. **Practice Questions**
@@ -213,7 +193,7 @@ This query calculates the average number of books borrowed in each borrowing tra
    - Find records where members returned the books after borrowing them (i.e., `ReturnDate` is not `NULL`).
 
 3. **Bonus Challenge**:
-   - Write a query to count how many books each member has borrowed.
+   - Write a query to count how many books each member has borrowed after a specific date.
    
 ---
 -by Kunal Dey
