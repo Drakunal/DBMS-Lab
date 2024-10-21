@@ -195,10 +195,6 @@ SELECT AVG(NumberOfCopies) AS AverageBorrowedPerTransaction FROM BorrowingRecord
 3. **Bonus Challenge**:
    - Write a query to count how many books each member has borrowed after a specific date.
 
-
-
-Here’s a more concise version of the assumptions and rules for the lab, along with the point about using a trigger to update the `AvailableCopies` in the `Books` table.
-
 ---
 
 ### **Assumptions and Rules**
