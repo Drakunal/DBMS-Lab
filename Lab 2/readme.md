@@ -2,6 +2,9 @@
 
 ### **Lab 2: Data Manipulation and Retrieval**
 
+#### **Objective**
+Learn to modify, retrieve, and organize data with SQL commands like `UPDATE`, `DELETE`, `ALTER`, `JOIN`, `GROUP BY`, and `ORDER BY` through hands-on examples.
+
 #### **Note**
 - Use the previous lab database for this
 
