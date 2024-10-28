@@ -1,8 +1,8 @@
 ---
 
-### **Lab 2: Data Manipulation and Retrieval**
+# **Lab 2: Data Manipulation and Retrieval**
 
-#### **Objective**
+### **Objective**
 Learn to modify, retrieve, and organize data with SQL commands like `UPDATE`, `DELETE`, `ALTER`, `JOIN`, `GROUP BY`, and `ORDER BY` through hands-on examples.
 
 #### **Note**
@@ -166,4 +166,49 @@ ORDER BY AvgRating DESC;
 
 ---
 
-by Kunal Dey
+### **7. HAVING clause**
+In SQL, the `HAVING` clause is used to filter results after the `GROUP BY` clause has been applied. This differs from the `WHERE` clause, which filters rows before any grouping is done. Here’s a breakdown of when to use `HAVING` vs. `WHERE`:
+
+### When to Use `HAVING`
+- Use `HAVING` when you want to filter grouped data (i.e., the aggregated results).
+- Typically, `HAVING` is used with aggregate functions (`SUM`, `COUNT`, `AVG`, etc.) to filter groups that meet certain criteria.
+
+### Example Use Case: Filter After Grouping
+Suppose we want to find genres with more than 5 books in the `Books` table. Here’s how to use `HAVING`:
+
+```sql
+SELECT Genre, COUNT(*) AS TotalBooks
+FROM Books
+GROUP BY Genre
+HAVING COUNT(*) > 5;
+```
+
+In this query:
+1. The `GROUP BY` clause groups rows by `Genre`.
+2. `COUNT(*)` calculates the total number of books in each genre.
+3. `HAVING COUNT(*) > 5` filters out genres that have fewer than 5 books.
+
+### Difference Between `WHERE` and `HAVING`
+- **`WHERE`**: Filters rows before they’re grouped.
+- **`HAVING`**: Filters groups after aggregation.
+
+### Example Comparison
+If you want to count books published after the year 2000, and then filter genres with more than 5 such books, use both `WHERE` and `HAVING`:
+
+```sql
+SELECT Genre, COUNT(*) AS TotalBooks
+FROM Books
+WHERE PublishedYear > 2000
+GROUP BY Genre
+HAVING COUNT(*) > 5;
+```
+
+- `WHERE PublishedYear > 2000` filters out books published before 2000.
+- `GROUP BY Genre` groups the remaining rows by genre.
+- `HAVING COUNT(*) > 5` filters genres with more than 5 books published after 2000.
+
+`HAVING` is essential for working with grouped data when using aggregate functions for more targeted analysis.
+
+---
+
+-by Kunal Dey
