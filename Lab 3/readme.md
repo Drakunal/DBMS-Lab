@@ -133,6 +133,26 @@ WHERE BorrowDate BETWEEN '2024-02-01' AND '2024-02-28';
 
 ###### **Example: Categorizing Borrow Frequency**
 Categorize members based on the number of books they borrowed:
+This query classifies library members into **Frequent Borrower**, **Moderate Borrower**, or **Occasional Borrower** based on the number of books they borrowed.
+
+1. **`CONCAT(M.FirstName, ' ', M.LastName)`**: Combines the first and last names of members into `MemberName`.
+
+2. **`CASE` Statement**: 
+   - Counts how many books each member borrowed (`COUNT(R.BookID)`):
+     - More than 10 → **Frequent Borrower**.
+     - Between 5-10 → **Moderate Borrower**.
+     - Less than 5 → **Occasional Borrower**.
+
+3. **`LEFT JOIN`**: Ensures even members with no borrowing records are included (count as 0).
+
+4. **`GROUP BY M.MemberID`**: Groups data by each member to calculate their borrowing count.
+
+### Example:
+- If "Alice" borrowed 7 books → **Moderate Borrower**.
+- If "John" borrowed 12 books → **Frequent Borrower**.
+- If "Bob" borrowed none → **Occasional Borrower**. 
+
+Output: Member names with their borrowing category.
 ```sql
 SELECT 
     CONCAT(M.FirstName, ' ', M.LastName) AS MemberName,
