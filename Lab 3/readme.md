@@ -22,7 +22,7 @@ This lab builds on the foundational SQL knowledge from Labs 1 and 2, focusing on
 ###### **Example 1: Finding Members and Their Borrowed Books**  
 Get details of members and the books they borrowed:  
 ```sql
-SELECT M.MemberName, B.Title, BR.BorrowDate
+SELECT M.FirstName, B.Title, BR.BorrowDate
 FROM Members M
 JOIN BorrowingRecords BR ON M.MemberID = BR.MemberID
 JOIN Books B ON BR.BookID = B.BookID;
