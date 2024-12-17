@@ -177,37 +177,52 @@ COMMIT;
 
 ---
 
-#### **5. Conditional Logic in Transactions**
+#### **5. Conditional Logic in Transactions(Optional  - includes procedures)**
 
 ##### **Scenario:** Update all students' marks for a subject, but only commit if no marks exceed 100 after the update.  
+It creates a procedure(function), then calls it
 
 ```sql
--- Start the transaction
-BEGIN;
+DELIMITER $$
 
--- Add a new student
-INSERT INTO Students (StudentID, FirstName, LastName, DateOfBirth, ProgramID, AdmissionYear)
-VALUES (7, 'Frank', 'Green', '2003-03-12', 3, 2023);
+CREATE PROCEDURE UpdateStudentMarks()
+BEGIN
+    -- Start the transaction
+    START TRANSACTION;
 
--- Create a savepoint
-SAVEPOINT InsertGrades;
+    -- Update marks for a specific student by adding extra points
+    UPDATE Grades
+    SET Marks = Marks + 25
+    WHERE StudentID = 6;
 
--- Add grades for the new student
-INSERT INTO Grades (GradeID, StudentID, Subject, Marks)
-VALUES 
-    (8, 7, 'Mathematics', 80), 
-    (11, 7, 'Physics', 85),
-    (12, 7, 'Chemistry', 78);
+    -- Create a savepoint
+    SAVEPOINT UpdateMarks;
 
--- If something goes wrong, rollback to the savepoint
-ROLLBACK TO InsertGrades;
+    -- Check if any updated marks exceed 100
+    SELECT COUNT(GradeID) INTO @ExceedCount
+    FROM Grades 
+    WHERE Marks > 100;
 
--- Otherwise, finalize the transaction
-COMMIT;
+    -- Conditional Logic
+    IF @ExceedCount > 0 THEN
+        -- Rollback to the savepoint
+        ROLLBACK TO UpdateMarks;
+        SELECT 'Rollback executed due to updated marks exceeding 100.' AS Result;
+    ELSE
+        -- Finalize the transaction
+        COMMIT;
+        SELECT 'Transaction committed successfully. Marks updated.' AS Result;
+    END IF;
+END $$
+
+DELIMITER ;
 
 
 ```
-
+Calling the procedure afterwards - 
+```sql
+CALL UpdateStudentMarks();
+```
 ---
 
 ### **Step 4: Practice Questions**
